@@ -100,7 +100,7 @@ class PDFHandler:
 
             kwargs = {}
             if return_model:
-                kwargs["format"] = return_model.model_json_schema()
+                kwargs["response_model"] = return_model
 
             # Use the appropriate provider to make the API call
             response = self.provider.chat(**chat_params, **kwargs)

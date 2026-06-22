@@ -13,16 +13,23 @@ from models import ModelProvider
 load_dotenv()
 
 # Constants
-DEFAULT_MODEL_NAME = "gemma3:4b"
 DEFAULT_PROVIDER = ModelProvider.OLLAMA
 
-# Get model and provider from environment or use defaults
-DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", DEFAULT_MODEL_NAME)
+# Get provider from environment or use default
 PROVIDER = os.getenv("LLM_PROVIDER", DEFAULT_PROVIDER.value)
 
 # Validate provider
 if PROVIDER not in [p.value for p in ModelProvider]:
     PROVIDER = DEFAULT_PROVIDER.value
+
+# Determine default model name based on provider
+if PROVIDER == ModelProvider.GEMINI.value:
+    DEFAULT_MODEL_NAME = "gemini-3.5-flash"
+else:
+    DEFAULT_MODEL_NAME = "gemma3:4b"
+
+# Get model from environment or use provider-specific default
+DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", DEFAULT_MODEL_NAME)
 
 # Model-specific parameters
 MODEL_PARAMETERS = {

@@ -72,8 +72,8 @@ class ResumeEvaluator:
                 },
             }
 
-            # Add format parameter for structured output
-            kwargs = {"format": EvaluationData.model_json_schema()}
+            # Add response_model parameter for structured output
+            kwargs = {"response_model": EvaluationData}
             # Use the appropriate provider to make the API call
             response = self.provider.chat(**chat_params, **kwargs)
 

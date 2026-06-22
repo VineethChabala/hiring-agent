@@ -278,6 +278,22 @@ Please read the [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines on 
 
 ---
 
+## Recent Enhancements
+
+This repository contains several enhancements to the baseline project:
+
+- **Enhanced Google Gemini Integration**:
+  - Fixed structured JSON outputs by recursively resolving Pydantic schemas and filtering out unsupported fields (like `title` or `default`) before calling the API.
+  - Implemented correct routing of system instructions to the Gemini API.
+  - Upgraded the `google-generativeai` client SDK to version `0.8.6`.
+- **Adaptive Quota & Server Error Retries**:
+  - Added automatic retry loops (up to 5 attempts) to handle `429` (ResourceExhausted) rate limits and transient `500` / `503` server errors.
+  - The API wrapper parses recommended retry delays directly from the Gemini API errors and sleeps dynamically before retrying.
+- **Provider & Model Normalization**:
+  - Aligned provider selection to strictly respect the `LLM_PROVIDER` environment variable.
+  - Added automatic model name mapping: if Ollama-style tags are used (e.g. `gemma4:31b`) with the Gemini provider, it automatically translates them to Gemini API conventions (e.g. `gemma-4-31b-it`).
+
+---
 
 ## License
 
