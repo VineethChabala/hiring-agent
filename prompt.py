@@ -9,8 +9,8 @@ import os
 from dotenv import load_dotenv
 from models import ModelProvider
 
-# Load environment variables
-load_dotenv()
+# Load environment variables (override=True ensures .env changes take precedence)
+load_dotenv(override=True)
 
 # Constants
 DEFAULT_PROVIDER = ModelProvider.OLLAMA
