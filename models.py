@@ -539,7 +539,7 @@ class GeminiProvider:
         import time
         import re
         import logging
-        from google.api_core.exceptions import ResourceExhausted, InternalServerError, ServiceUnavailable
+        from google.api_core.exceptions import ResourceExhausted, InternalServerError, ServiceUnavailable, DeadlineExceeded
 
         logger = logging.getLogger(__name__)
 
@@ -561,11 +561,14 @@ class GeminiProvider:
                     "rate limit" in error_msg
                 )
                 is_server_error = (
-                    isinstance(e, (InternalServerError, ServiceUnavailable)) or
+                    isinstance(e, (InternalServerError, ServiceUnavailable, DeadlineExceeded)) or
                     "500" in error_msg or
                     "503" in error_msg or
+                    "504" in error_msg or
                     "internal error" in error_msg or
                     "service unavailable" in error_msg or
+                    "deadline exceeded" in error_msg or
+                    "timeout" in error_msg or
                     "temporarily unavailable" in error_msg
                 )
                 if (is_rate_limit or is_server_error) and attempt < max_retries - 1:
